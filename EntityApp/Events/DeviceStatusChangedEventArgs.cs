@@ -10,7 +10,8 @@ namespace EntityApp.Events
     {
         public DeviceStatus PreviousDeviceStatus { get;  }
         public DeviceStatus CurrentDeviceStatus { get; }
-        public DeviceStatusChangedEventArgs(string deviceId, DeviceStatus preStatus,DeviceStatus currentStatus) : base(deviceId, $"状态变化--{preStatus}->{currentStatus}")
+        public DeviceStatusChangedEventArgs(string deviceId, DeviceStatus preStatus,DeviceStatus currentStatus)
+            : base(deviceId, $"状态变化--{preStatus}->{currentStatus}")
         {
             PreviousDeviceStatus = preStatus;
             CurrentDeviceStatus = currentStatus;
