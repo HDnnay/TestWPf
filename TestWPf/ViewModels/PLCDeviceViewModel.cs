@@ -1,7 +1,6 @@
 ﻿using EntityApp.Devices;
 using EntityApp.EventManagers;
 using EntityApp.Events;
-using EntityApp.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +15,8 @@ namespace TestWPf.ViewModels
 
         private PLCDevice _device;
         private string _displayName;
+        private DateTime _lastStatusChange;
+
         public PLCDeviceViewModel(PLCDevice device) 
         { 
             
@@ -48,7 +49,18 @@ namespace TestWPf.ViewModels
         // 提供对原始PLCDevice的访问（如果需要）
         public PLCDevice GetPLCDevice() { return _device; }
         public bool IsOnline => Status == DeviceStatus.Open;
-
+        public DateTime LastStatusChange
+        {
+            get => _lastStatusChange;
+            private set
+            {
+                if (_lastStatusChange != value)
+                {
+                    _lastStatusChange = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private void OnDeviceStatusChanged(object? sender, DeviceStatusChangedEventArgs e)
         {
             if (e.DeviceId == DeviceId)
@@ -58,6 +70,7 @@ namespace TestWPf.ViewModels
                     OnPropertyChanged(nameof(StatusText));
                     OnPropertyChanged(nameof(StatusColor));
                     OnPropertyChanged(nameof(IsOnline));
+                    LastStatusChange = DateTime.Now;
                 });
             }
         }

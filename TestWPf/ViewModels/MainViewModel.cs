@@ -1,6 +1,7 @@
 ﻿using EntityApp.Devices;
 using EntityApp.EventManagers;
 using EntityApp.Events;
+using EntityApp.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -101,9 +102,10 @@ namespace TestWPf.ViewModels
         public ICommand CloseSelectedCommand { get; }
         public ICommand RefreshStatsCommand { get; }
         public ICommand ErrorSelectedCommand { get; }
-
+        private readonly DataLogHandler _dataLogHandler;
         public MainViewModel()
         {
+            _dataLogHandler = new DataLogHandler();
             _devices = new ObservableCollection<PLCDeviceViewModel>();
 
             // 初始化命令
@@ -149,7 +151,7 @@ namespace TestWPf.ViewModels
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                StatusText = $"{DateTime.Now:HH:mm:ss} - 设备 {e.DeviceId} 状态从 {e.PreviousDeviceStatus} 变为 {e.CurrentDeviceStatus}";
+                StatusText = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - 设备 {e.DeviceId} 状态从 {e.PreviousDeviceStatus} 变为 {e.CurrentDeviceStatus}";
                 RefreshStatistics();
             });
         }
@@ -173,6 +175,7 @@ namespace TestWPf.ViewModels
                 device.Dispose();
             }
             _devices.Clear();
+            _dataLogHandler.Dispose();
         }
 
        
