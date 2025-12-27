@@ -1,0 +1,232 @@
+﻿<Window x:Class="TestWPf.Windows.NotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestWPf.Windows"
+        xmlns:vm="clr-namespace:TestWPf.ViewModels"
+        xmlns:cv="clr-namespace:TestWPf.Converts"
+        mc:Ignorable="d"
+        Title="NotificationWindow" Height="450" Width="800">
+    <Window.Resources>
+        <!-- 状态颜色转换器 -->
+        <cv:DeviceStatusToColorConverter x:Key="StatusToColorConverter"/>
+
+        <!-- 设备列表项样式 -->
+        <Style x:Key="DeviceItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#E0E0E0" BorderThickness="0,0,0,1"
+                                Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- 状态指示灯 -->
+                                <Ellipse Grid.Column="0" Width="12" Height="12" 
+                                         Fill="{Binding StatusColor}" 
+                                         VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                                <!-- 设备信息 -->
+                                <StackPanel Grid.Column="1" Orientation="Vertical">
+                                    <TextBlock Text="{Binding DisplayName}" 
+                                               FontWeight="Bold" FontSize="14"/>
+                                    <TextBlock Text="{Binding DeviceId}" 
+                                               FontSize="12" Foreground="Gray"/>
+                                </StackPanel>
+
+                                <!-- 状态文本 -->
+                                <TextBlock Grid.Column="2" 
+                                           Text="{Binding StatusText}" 
+                                           VerticalAlignment="Center"
+                                           FontWeight="SemiBold"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#E3F2FD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0" Background="#2196F3" Padding="15">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="🏭 PLC设备监控系统" 
+                           FontSize="18" FontWeight="Bold" 
+                           Foreground="White"/>
+                <TextBlock Text="{Binding StatusText}" 
+                           Margin="20,0,0,0" FontSize="14"
+                           Foreground="White" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 主内容区 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧设备列表 -->
+            <Border Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 统计信息 -->
+                    <Border Grid.Row="0" Background="#F5F5F5" Padding="10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="8" Height="8" Fill="#4CAF50" 
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="在线:" Margin="5,0,10,0" 
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding OnlineCount}" 
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <Ellipse Width="8" Height="8" Fill="#9E9E9E" 
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="离线:" Margin="5,0,10,0" 
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding OfflineCount}" 
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <Ellipse Width="8" Height="8" Fill="#F44336" 
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="故障:" Margin="5,0,10,0" 
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ErrorCount}" 
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 设备列表 -->
+                    <ListBox Grid.Row="1" 
+                             ItemsSource="{Binding Devices}"
+                             SelectedItem="{Binding SelectedDevice}"
+                             ItemContainerStyle="{StaticResource DeviceItemStyle}"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- 右侧控制面板 -->
+            <Border Grid.Column="1" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 当前设备信息 -->
+                    <GroupBox Grid.Row="0" Header="设备信息" Padding="10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="设备ID:" 
+                                       FontWeight="Bold" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" 
+                                       Text="{Binding SelectedDevice.DeviceId}" 
+                                       Margin="0,0,0,5"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="显示名称:" 
+                                       FontWeight="Bold" Margin="0,0,10,5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" 
+                                     Text="{Binding SelectedDevice.DisplayName, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0,0,0,5"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="当前状态:" 
+                                       FontWeight="Bold" Margin="0,0,10,0"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" 
+                                         Fill="{Binding SelectedDevice.StatusColor}"
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding SelectedDevice.StatusText}" 
+                                           Margin="5,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- 设备控制 -->
+                    <GroupBox Grid.Row="1" Header="设备控制" Margin="0,10,0,0" Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="启动设备" 
+                                    Command="{Binding OpenSelectedCommand}"
+                                    IsEnabled="{Binding IsDeviceSelected}"
+                                    Width="100" Height="30" Margin="0,0,10,0"/>
+
+                            <Button Content="停止设备" 
+                                    Command="{Binding CloseSelectedCommand}"
+                                    IsEnabled="{Binding IsDeviceSelected}"
+                                    Width="100" Height="30" Margin="0,0,10,0"/>
+
+                            <Button Content="设为故障" 
+                                    Command="{Binding ErrorSelectedCommand}"
+                                    IsEnabled="{Binding IsDeviceSelected}"
+                                    Width="100" Height="30"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!-- 最后状态变化 -->
+                    <GroupBox Grid.Row="2" Header="状态信息" Margin="0,10,0,0" Padding="10">
+                        <TextBlock Text="{Binding SelectedDevice.LastStatusChange, 
+                                         StringFormat='最后状态变化: {0:yyyy-MM-dd HH:mm:ss}'}"/>
+                    </GroupBox>
+
+                    <!-- 刷新按钮 -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Button Content="刷新统计" 
+                                Command="{Binding RefreshStatsCommand}"
+                                Width="80" Height="30"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="就绪"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusText}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

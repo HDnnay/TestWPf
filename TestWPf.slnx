@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EntityApp/EntityApp.csproj" Id="d9eac6bf-c0f1-4201-ab31-72a1225e6c27" />
+  <Project Path="TestWPf/TestWPf.csproj" />
+</Solution>
