@@ -7,6 +7,9 @@ using TestWPf.Events;
 
 namespace TestWPf
 {
+    /// <summary>
+    /// 单例模式
+    /// </summary>
     public class CommManger
     {
         private static readonly Lazy<CommManger> _instanc = new Lazy<CommManger>(() => new CommManger());

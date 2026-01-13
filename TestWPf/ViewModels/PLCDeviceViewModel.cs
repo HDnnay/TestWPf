@@ -17,9 +17,9 @@ namespace TestWPf.ViewModels
         private string _displayName;
         private DateTime _lastStatusChange;
 
-        public PLCDeviceViewModel(PLCDevice device) 
-        { 
-            
+        public PLCDeviceViewModel(PLCDevice device)
+        {
+
             _device = device?? throw new ArgumentNullException(nameof(device));
             _displayName = $"设备{device.DeviceId}";
             DeviceEventManager.Instance.DeviceStatusChanged +=OnDeviceStatusChanged;
@@ -28,7 +28,7 @@ namespace TestWPf.ViewModels
         public string DisplayName
         {
             get { return _displayName; }
-            set { _displayName = value;OnPropertyChanged(nameof(DisplayName)); }
+            set { _displayName = value; OnPropertyChanged(nameof(DisplayName)); }
         }
         public DeviceStatus Status => _device.Status;
         // 计算属性（用于UI绑定）
@@ -44,7 +44,7 @@ namespace TestWPf.ViewModels
             DeviceStatus.Open => "#4CAF50", // 绿色
             DeviceStatus.Close => "#FF9800", //红色
             DeviceStatus.Error => "#F44336", //橙色
-            _ => "#FF9800" 
+            _ => "#FF9800"
         };
         // 提供对原始PLCDevice的访问（如果需要）
         public PLCDevice GetPLCDevice() { return _device; }
@@ -65,7 +65,8 @@ namespace TestWPf.ViewModels
         {
             if (e.DeviceId == DeviceId)
             {
-                Application.Current.Dispatcher.Invoke(() => {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
                     OnPropertyChanged(nameof(Status));
                     OnPropertyChanged(nameof(StatusText));
                     OnPropertyChanged(nameof(StatusColor));
@@ -76,7 +77,7 @@ namespace TestWPf.ViewModels
         }
         public void OpenDevice()
         {
-           if(_device.Status!=DeviceStatus.Open)
+            if (_device.Status!=DeviceStatus.Open)
                 _device.Status = DeviceStatus.Open;
         }
         public void CloseDevice()

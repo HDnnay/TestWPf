@@ -14,7 +14,7 @@ namespace TestWPf.ViewModels
     {
         public NotificationViewModel()
         {
-            
+
         }
         private string _name;
         public string Name
@@ -28,6 +28,6 @@ namespace TestWPf.ViewModels
             get { return _device; }
             set { _device = value; OnPropertyChanged(nameof(Device)); }
         }
-        
+
     }
 }

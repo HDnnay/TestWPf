@@ -14,7 +14,7 @@ namespace TestWPf.Converts
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is DeviceStatus status)
+            if (value is DeviceStatus status)
             {
                 switch (status)
                 {

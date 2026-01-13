@@ -16,7 +16,7 @@ using TestWPf.Commands;
 
 namespace TestWPf.ViewModels
 {
-    public class MainViewModel:ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         private readonly ObservableCollection<PLCDeviceViewModel> _devices;
         private PLCDeviceViewModel _selectedDevice;
@@ -116,8 +116,8 @@ namespace TestWPf.ViewModels
             CloseSelectedCommand = new RelayCommand(
                 execute: () => SelectedDevice?.CloseDevice(),
                 canExecute: () => IsDeviceSelected && SelectedDevice.Status != DeviceStatus.Close);
-            ErrorSelectedCommand = new RelayCommand(execute:()=>SelectedDevice?.ErroDevice(),
-                canExecute:()=> IsDeviceSelected&&SelectedDevice.Status !=DeviceStatus.Error);
+            ErrorSelectedCommand = new RelayCommand(execute: () => SelectedDevice?.ErroDevice(),
+                canExecute: () => IsDeviceSelected&&SelectedDevice.Status !=DeviceStatus.Error);
             RefreshStatsCommand = new RelayCommand(
                 execute: RefreshStatistics);
 
@@ -162,7 +162,7 @@ namespace TestWPf.ViewModels
 
             OnlineCount = _devices.Count(d => d.IsOnline);
             OfflineCount = _devices.Count(d => d.Status == DeviceStatus.Close);
-            ErrorCount = _devices.Count(t=>t.Status==DeviceStatus.Error);
+            ErrorCount = _devices.Count(t => t.Status==DeviceStatus.Error);
         }
 
         // 清理资源
@@ -178,6 +178,6 @@ namespace TestWPf.ViewModels
             _dataLogHandler.Dispose();
         }
 
-       
+
     }
 }

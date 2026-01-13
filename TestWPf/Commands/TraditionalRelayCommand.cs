@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace TestWPf.Commands
 {
-    public class TraditionalRelayCommand: ICommand
+    public class TraditionalRelayCommand : ICommand
     {
         private readonly Action _execute;
         private readonly Func<bool> _canExecute;

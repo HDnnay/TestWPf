@@ -8,12 +8,12 @@ using System.Windows.Controls;
 
 namespace TestWPf.Constrolls
 {
-    public class CustomerTextBox:TextBox
+    public class CustomerTextBox : TextBox
     {
         public bool IsLighited
         {
             get { return (bool)GetValue(IsLighitedProperty); }
-            set { SetValue(IsLighitedProperty, value);}
+            set { SetValue(IsLighitedProperty, value); }
         }
         public static readonly DependencyProperty IsLighitedProperty = DependencyProperty.Register(
             nameof(IsLighited),

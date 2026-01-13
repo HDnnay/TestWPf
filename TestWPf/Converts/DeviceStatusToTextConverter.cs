@@ -40,6 +40,6 @@ namespace TestWPf.Converts
             }
             return DeviceStatus.Close;
         }
-    
+
     }
 }

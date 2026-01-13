@@ -39,9 +39,9 @@ namespace TestWPf.Helpers
         }
 
         public static readonly DependencyProperty HasTextProperty;
-        
+
         public static readonly DependencyPropertyKey HasTextPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly("HasText",typeof(bool),typeof(TextBoxHelper),new PropertyMetadata(false));
+            DependencyProperty.RegisterAttachedReadOnly("HasText", typeof(bool), typeof(TextBoxHelper), new PropertyMetadata(false));
         static TextBoxHelper()
         {
             HasTextProperty = HasTextPropertyKey.DependencyProperty;
@@ -55,7 +55,7 @@ namespace TestWPf.Helpers
             obj.SetValue(MionitorTextChangedProperty, value);
         }
         public static readonly DependencyProperty MionitorTextChangedProperty =
-            DependencyProperty.RegisterAttached("MionitorTextChanged", typeof(bool), typeof(TextBoxHelper), new PropertyMetadata(false,MionitorTextPropertyChanged));
+            DependencyProperty.RegisterAttached("MionitorTextChanged", typeof(bool), typeof(TextBoxHelper), new PropertyMetadata(false, MionitorTextPropertyChanged));
         private static void MionitorTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is not TextBox box)
@@ -72,7 +72,7 @@ namespace TestWPf.Helpers
         private static void Box_TextChanged(object sender, TextChangedEventArgs e)
         {
             var box = sender as TextBox;
-            SetHasText(box!,!string.IsNullOrEmpty(box!.Text));
+            SetHasText(box!, !string.IsNullOrEmpty(box!.Text));
         }
     }
 }
