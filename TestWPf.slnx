@@ -1,4 +1,12 @@
 <Solution>
-  <Project Path="EntityApp/EntityApp.csproj" Id="d9eac6bf-c0f1-4201-ab31-72a1225e6c27" />
-  <Project Path="TestWPf/TestWPf.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="EntityApp/EntityApp.csproj" Id="d9eac6bf-c0f1-4201-ab31-72a1225e6c27">
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
+  <Project Path="TestWPf/TestWPf.csproj">
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
 </Solution>
