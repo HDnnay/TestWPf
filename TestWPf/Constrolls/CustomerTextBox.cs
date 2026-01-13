@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace TestWPf.Constrolls
 {
+    /// <summary>
+    /// 自定义TextBox
+    /// </summary>
     public class CustomerTextBox : TextBox
     {
         public bool IsLighited
