@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace TestWPf.ViewModels
 {
-    public class PLCDeviceViewModel : ViewModelBase
+    public class  PLCDeviceViewModel : ViewModelBase
     {
 
         private PLCDevice _device;
